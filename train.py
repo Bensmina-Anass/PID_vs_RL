@@ -1,6 +1,7 @@
 """Train one PPO agent per patient and save to results/."""
 
 import os
+import multiprocessing as mp
 from stable_baselines3 import PPO
 from stable_baselines3.common.env_util import make_vec_env
 from env import InsulinEnv
@@ -15,7 +16,7 @@ RESULTS_DIR = 'results'
 
 
 def train_patient(patient_name: str, seed: int = 42):
-    print(f'\n=== Training PPO for {patient_name} ===')
+    print(f'\n=== Training PPO for {patient_name} ===', flush=True)
 
     env = make_vec_env(
         lambda: InsulinEnv(patient_name=patient_name, seed=seed),
@@ -25,8 +26,9 @@ def train_patient(patient_name: str, seed: int = 42):
     model = PPO(
         'MlpPolicy',
         env,
-        verbose=1,
+        verbose=0,
         seed=seed,
+        device='cpu',
         learning_rate=3e-4,
         n_steps=2048,
         batch_size=64,
@@ -37,14 +39,14 @@ def train_patient(patient_name: str, seed: int = 42):
     slug = patient_name.replace('#', '')
     save_path = os.path.join(RESULTS_DIR, f'ppo_{slug}')
     model.save(save_path)
-    print(f'Saved to {save_path}.zip')
+    print(f'Saved {save_path}.zip', flush=True)
     env.close()
 
 
 def main():
     os.makedirs(RESULTS_DIR, exist_ok=True)
-    for patient in PATIENTS:
-        train_patient(patient)
+    with mp.Pool(processes=len(PATIENTS)) as pool:
+        pool.map(train_patient, PATIENTS)
 
 
 if __name__ == '__main__':

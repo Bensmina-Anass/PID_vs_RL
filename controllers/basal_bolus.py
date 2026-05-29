@@ -6,7 +6,7 @@ from simglucose.patient.t1dpatient import T1DPatient
 def get_tdi(patient_name: str) -> float:
     """Estimate Total Daily Insulin from patient body weight (0.5 U/kg/day)."""
     patient = T1DPatient.withName(patient_name)
-    return 0.5 * patient.BW
+    return 0.5 * patient._params['BW']
 
 
 class BasalBolusController:

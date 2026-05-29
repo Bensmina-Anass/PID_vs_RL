@@ -9,6 +9,7 @@ from simglucose.patient.t1dpatient import T1DPatient
 from simglucose.sensor.cgm import CGMSensor
 from simglucose.actuator.pump import InsulinPump
 from simglucose.controller.base import Action
+from simglucose.simulation.scenario import Action as ScenarioAction
 
 # Fixed 24h meal protocol: minute-of-day -> grams of carbs
 MEAL_SCHEDULE = {
@@ -41,8 +42,10 @@ class _FixedMealScenario:
     def get_action(self, t):
         minutes = int(round((t - self.start_time).total_seconds() / 60))
         cho = MEAL_SCHEDULE.get(minutes, 0)
-        # SimGlucose scenarios return Action(basal=0, bolus=CHO_grams)
-        return Action(basal=0, bolus=cho)
+        return ScenarioAction(meal=cho)
+
+    def reset(self):
+        pass
 
 
 class InsulinEnv(gym.Env):
@@ -148,8 +151,7 @@ class InsulinEnv(gym.Env):
 
     def _advance_sim(self, rate: float, bolus: float) -> float:
         result = self._sim.step(Action(basal=rate, bolus=bolus))
-        # SimGlucose raw env returns (bg, reward, done, info) — 4-tuple
-        return float(result[0])
+        return float(result.observation.CGM)
 
     def _obs(self) -> np.ndarray:
         angle = 2.0 * np.pi * (self._step_count * 5) / 1440.0

@@ -12,9 +12,9 @@ from controllers.basal_bolus import BasalBolusController
 RESULTS_DIR = 'results'
 FIGURES_DIR = os.path.join(RESULTS_DIR, 'figures')
 
-METHODS  = ['bb', 'ppo']
-COLORS   = {'bb': '#4CAF50', 'ppo': '#F44336'}
-LABELS   = {'bb': 'Basal-Bolus (clinical)', 'ppo': 'PPO (RL)'}
+METHODS  = ['bb', 'ppo', 'ppo_lit']
+COLORS   = {'bb': '#4CAF50', 'ppo': '#F44336', 'ppo_lit': '#2196F3'}
+LABELS   = {'bb': 'Basal-Bolus (clinical)', 'ppo': 'PPO (RL, local)', 'ppo_lit': 'PPO (G2P2C baseline, literature)'}
 
 
 # ------------------------------------------------------------------
