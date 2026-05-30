@@ -12,7 +12,7 @@ style: |
   h2 { color: #0288D1; font-size: 1.3em; border-bottom: 2px solid #0288D1; padding-bottom: 4px; }
   h3 { color: #1A237E; }
   table { font-size: 0.78em; width: 100%; }
-  th { background-color: #1A237E; color: white; }
+  th { background-color: #1A237E; color: black; }
   tr:nth-child(even) { background-color: #f0f4ff; }
   .highlight { background: #e3f2fd; border-left: 4px solid #0288D1; padding: 10px 16px; border-radius: 4px; }
   .danger  { background: #ffebee; border-left: 4px solid #C62828; padding: 10px 16px; border-radius: 4px; }
@@ -42,10 +42,10 @@ Le **Diabète de Type 1** : le pancréas ne produit plus d'insuline → la glyc�
 
 | Zone | Glycémie | Risque |
 |---|---|---|
-| 🟢 Cible (TIR) | 70 – 180 mg/dL | Objectif |
-| 🟡 Hypoglycémie | < 70 mg/dL | Malaise, convulsions |
-| 🔴 Hypoglycémie sévère | **< 40 mg/dL** | Coma, décès |
-| 🟠 Hyperglycémie | > 180 mg/dL | Complications à long terme |
+| Cible (TIR) | 70 – 180 mg/dL | Objectif |
+| Hypoglycémie | < 70 mg/dL | Malaise, convulsions |
+| Hypoglycémie sévère | **< 40 mg/dL** | Coma, décès |
+| Hyperglycémie | > 180 mg/dL | Complications à long terme |
 
 <br>
 
@@ -152,7 +152,7 @@ Le <strong>taux d'échec</strong> est la métrique de sécurité absolue : un se
 
 ## Résultats — Time-In-Range par patient
 
-![w:950](results/figures/tir_boxplots.png)
+![w:1500](results/figures/tir_boxplots.png)
 
 ---
 
@@ -252,16 +252,22 @@ Tester la politique apprise sur le dataset OhioT1DM (12 patients réels avec CGM
 <!-- _backgroundColor: #1A237E -->
 <!-- _color: white -->
 
+<style scoped>
+th { background-color: rgba(255,255,255,0.2) !important; color: black !important; }
+td { background-color: #1A237E !important; color: white !important; }
+tr:nth-child(even) td { background-color: #1e2d8e !important; }
+</style>
+
 ## Conclusion
 
 <br>
 
 | | Basal-Bolus | Agent PPO |
 |---|:---:|:---:|
-| TIR global | ✅ **80.87%** | 74.81% |
-| Hypoglycémie (TBR) | 9.83% | ✅ **5.72%** |
-| Hyperglycémie (TAR) | ✅ **2.93%** | 19.27% |
-| **Sécurité absolue** | ❌ 82.3% d'échec | ✅ **0% d'échec** |
+| TIR global |  **80.87%** | 74.81% |
+| Hypoglycémie (TBR) | 9.83% |  **5.72%** |
+| Hyperglycémie (TAR) |  **2.93%** | 19.27% |
+| **Sécurité absolue** |  82.3% d'échec |  **0% d'échec** |
 
 <br>
 
